@@ -1,9 +1,7 @@
 package com.catchcbnu.ospp_project.user.controller;
 
-import com.catchcbnu.ospp_project.user.dto.SignupRequest;
 import com.catchcbnu.ospp_project.user.dto.UserResponse;
 import com.catchcbnu.ospp_project.user.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,12 +12,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse signup(@RequestBody SignupRequest request) {
-        return userService.signup(request);
     }
 
     @GetMapping("/{userId}")
