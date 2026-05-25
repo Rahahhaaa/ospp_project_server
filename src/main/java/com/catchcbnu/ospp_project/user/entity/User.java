@@ -1,44 +1,65 @@
 package com.catchcbnu.ospp_project.user.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    private String password;
+    @Column(name = "password_hash", nullable = false, length = 255)
+    private String passwordHash;
 
+    @Column(name = "nickname", nullable = false, unique = true, length = 50)
     private String nickname;
 
+    @Column(name = "college", nullable = false, length = 100)
     private String college;
 
+    @Column(name = "department", nullable = false, length = 100)
     private String department;
 
-    private int level;
+    @Column(name = "exp", nullable = false)
+    private Integer exp;
 
-    private int exp;
+    @Column(name = "level", nullable = false)
+    private Integer level;
 
+    @Column(name = "total_submission_count", nullable = false)
+    private Integer totalSubmissionCount;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     protected User() {
     }
 
-    public User(String email, String password, String nickname, String college, String department) {
+    public User(String email, String passwordHash, String nickname, String college, String department) {
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.nickname = nickname;
         this.college = college;
         this.department = department;
-        this.level = 1;
         this.exp = 0;
-        this.createdAt = LocalDateTime.now();
+        this.level = 1;
+        this.totalSubmissionCount = 0;
     }
 
     public Long getId() {
@@ -49,8 +70,8 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
     public String getNickname() {
@@ -65,16 +86,24 @@ public class User {
         return department;
     }
 
-    public int getLevel() {
+    public Integer getExp() {
+        return exp;
+    }
+
+    public Integer getLevel() {
         return level;
     }
 
-    public int getExp() {
-        return exp;
+    public Integer getTotalSubmissionCount() {
+        return totalSubmissionCount;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void addExp(int amount) {

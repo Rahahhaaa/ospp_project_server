@@ -1,7 +1,6 @@
 package com.catchcbnu.ospp_project.user.service;
 
 import com.catchcbnu.ospp_project.user.entity.User;
-import com.catchcbnu.ospp_project.user.dto.SignupRequest;
 import com.catchcbnu.ospp_project.user.dto.UserResponse;
 import com.catchcbnu.ospp_project.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -14,25 +13,6 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    @Transactional
-    public UserResponse signup(SignupRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
-        }
-
-        User user = new User(
-                request.email(),
-                request.password(),
-                request.nickname(),
-                request.college(),
-                request.department()
-        );
-
-        User savedUser = userRepository.save(user);
-
-        return toResponse(savedUser);
     }
 
     @Transactional(readOnly = true)
